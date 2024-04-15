@@ -1,20 +1,6 @@
 version: '3.8'
 
 services:
-
-  app-dev:
-    container_name: "app-dev"
-    env_file:
-      - ./.env
-    build:
-      context: app
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - ${APP_PORT}:5000
-    depends_on:
-      - redis-db-dev
-
   redis-db-dev:
     container_name: "redis-db-dev"
     hostname: "redis-db-dev"
@@ -32,3 +18,16 @@ services:
         limits:
           cpus: '1'
           memory: 2G
+
+  redis-db-test:
+    container_name: "redis-db-test"
+    hostname: "redis-db-test"
+    image: redis:alpine
+    env_file:
+      - ./.env
+    restart: always
+    ports:
+      - ${REDIS_TEST_PORT}:6377
+    command: /bin/ash -c "redis-server --port 6377"
+    depends_on:
+      - redis-db-dev

@@ -6,7 +6,18 @@ from app.resources import Item
 
 
 app = Flask(__name__)
-app.config.from_object('app.config.Config')
+
+if app.debug:
+    from werkzeug.middleware.profiler import ProfilerMiddleware
+    app.wsgi_app = ProfilerMiddleware(
+        app.wsgi_app,
+        restrictions=[30],
+        profile_dir="profiler_dump",
+        filename_format="{time:.0f}-{method}-{path}-{elapsed:.0f}ms.prof"
+    )
+    app.config.from_object('app.config.DebugConfig')
+else:
+    app.config.from_object('app.config.Config')
 
 SWAGGER_URL = '/api/v1/docs'
 API_URL = '/static/swagger/swagger.json'
@@ -28,4 +39,4 @@ api.init_app(app)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

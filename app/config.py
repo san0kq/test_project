@@ -7,7 +7,13 @@ load_dotenv(override=True)
 
 class Config:
     REDIS_HOST = os.environ.get('REDIS_HOST', '127.0.0.1')
-    REDIS_PORT = os.environ.get('REDIS_PORT', 6379)
+    REDIS_PORT = os.environ.get('REDIS_PORT', 6380)
+    REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', '')
+
+
+class DebugConfig:
+    REDIS_HOST = os.environ.get('DEBUG_REDIS_HOST', '127.0.0.1')
+    REDIS_PORT = os.environ.get('REDIS_PORT', 6380)
     REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', '')
 
 
