@@ -136,6 +136,6 @@ def delete_item(data: ItemDTO) -> bool:
         dao.delete(data=data)
         logger.info(f'The key {data.key} has been successfully deleted.')
         return True
-    except KeyAlreadyExistsError as err:
+    except KeyDoesNotExistError as err:
         logger.info(err)
         return False

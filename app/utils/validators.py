@@ -16,6 +16,7 @@ def key_validator(key: str) -> None:
             'should be greater than 0.'
         )
 
+
 def value_validator(value: str) -> None:
     """Validate the format of a value.
 

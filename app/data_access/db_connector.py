@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from redis import Redis
 from typing import Optional, TYPE_CHECKING
-
-from app.config import REDIS_HOST, REDIS_PORT, REDIS_PASSWORD
+from flask import current_app
 
 if TYPE_CHECKING:
     from app.data_access.interfaces import DBGatewayProtocol
@@ -31,9 +30,9 @@ class RedisGateway:
 
     def __init__(self) -> None:
         """Initialize the RedisGateway."""
-        self._redis_host = REDIS_HOST
-        self._redis_port = REDIS_PORT
-        self._redis_password = REDIS_PASSWORD
+        self._redis_host = current_app.config['REDIS_HOST']
+        self._redis_port = current_app.config['REDIS_PORT']
+        self._redis_password = current_app.config['REDIS_PASSWORD']
         self.connection = self._create_connection()
 
     def _create_connection(self) -> Redis:

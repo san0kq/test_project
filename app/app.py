@@ -6,6 +6,7 @@ from app.resources import Item
 
 
 app = Flask(__name__)
+app.config.from_object('app.config.Config')
 
 SWAGGER_URL = '/api/v1/docs'
 API_URL = '/static/swagger/swagger.json'

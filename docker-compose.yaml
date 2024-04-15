@@ -19,12 +19,12 @@ services:
     container_name: "redis-db-dev"
     hostname: "redis-db-dev"
     image: redis:alpine
-    command: /bin/ash -c "redis-server --requirepass ${REDIS_PASSWORD}"
+    command: /bin/ash -c "redis-server --requirepass ${REDIS_PASSWORD} --port 6380"
     env_file:
       - ./.env
     restart: always
     ports:
-      - ${EXT_REDIS_POR}:6379
+      - ${REDIS_PORT}:6380
     volumes:
       - ./db/redis-data:/data
     deploy:
@@ -32,3 +32,16 @@ services:
         limits:
           cpus: '1'
           memory: 2G
+
+  redis-db-test:
+    container_name: "redis-db-test"
+    hostname: "redis-db-test"
+    image: redis:alpine
+    env_file:
+      - ./.env
+    restart: always
+    ports:
+      - ${REDIS_TEST_PORT}:6377
+    command: /bin/ash -c "redis-server --port 6377"
+    depends_on:
+      - app-dev
